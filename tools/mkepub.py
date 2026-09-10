@@ -39,14 +39,14 @@ LINK_PREFIX = {
     "flm": "https://man7.org/linux/man-pages/man3/",
 }
 
-# One upstream typo puts the closing "]]" in the wrong place. Fix it first so
-# the index pattern below stays simple.
-TYPOS = [("[i[`connect()`] function]", "[i[`connect()` function]]")]
-
 # Link and hyphenation macros: the body is on one line and holds no "]".
 MACRO = re.compile(r"\[(fl|flx|flr|flrfc|flw|flm|nh)\[([^\]]*)\]\]")
-# Index macros: the body can wrap across lines. Closers are ]], ]i], ]<], ]>].
-INDEX = re.compile(r"\[i\[.*?\][i<>]?\]", re.DOTALL)
+# Index macros. The body can wrap across lines but never holds a bracket, and
+# the flags after it are only ibIBT<>. Both limits matter: a macro with a
+# misplaced bracket then fails to match, and the check in preprocess() reports
+# it. A looser pattern would instead run on to the next "]]" and silently eat
+# the prose in between.
+INDEX = re.compile(r"\[i\[[^\[\]]+\][ibIBT<>]*\]", re.DOTALL)
 # Anything left over means a macro form this script does not know about.
 LEFTOVER = re.compile(r"\[(?:fl|flx|flr|flrfc|flw|flm|nh|i)\[")
 COMMENT = re.compile(r"<!--.*?-->", re.DOTALL)
@@ -90,8 +90,6 @@ def preprocess(text):
     text = COMMENT.sub("", text)
     text = MANBREAK.sub(PAGEBREAK_HTML, text)
     text = PAGEBREAK.sub(PAGEBREAK_HTML, text)
-    for wrong, right in TYPOS:
-        text = text.replace(wrong, right)
     text = INDEX.sub("", text)  # Index entries have no meaning in an EPUB.
     text = MACRO.sub(expand, text)
     left = LEFTOVER.search(text)

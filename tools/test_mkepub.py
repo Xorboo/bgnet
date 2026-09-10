@@ -32,6 +32,19 @@ def test_index_and_hyphenation_macros_go_away():
     assert preprocess("say [nh[getaddrinfo]] loud") == "say getaddrinfo loud"
 
 
+def test_misplaced_bracket_is_reported():
+    # This is how bgnet_part_0500_syscalls.md:315 read before the fix. The
+    # brackets close one word early. preprocess() must say so rather than
+    # match on to the next "]]" and drop the prose in between.
+    broken = "a [i[`connect()`] function] b and [i[Port]] c"
+    try:
+        preprocess(broken)
+    except SystemExit as e:
+        assert "unhandled macro" in str(e), e
+    else:
+        raise AssertionError("a misplaced bracket went unreported")
+
+
 def test_page_breaks_and_image_type():
     assert preprocess("[[manbreak]]") == '<div class="pagebreak"></div>'
     assert preprocess("![Cs.](cs.pdf)") == "![Cs.](cs.png)"

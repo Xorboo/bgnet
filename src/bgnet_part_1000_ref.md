@@ -153,4 +153,4 @@ obviously!)
 The IETF has a nice online tool for [fl[searching and browsing
 RFCs|https://tools.ietf.org/rfc/]].
 
-[i[RFCs]>] [i[References-->FRFCs]>]
+[i[RFCs]>] [i[References-->RFCs]>]

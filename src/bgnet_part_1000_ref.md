@@ -79,7 +79,7 @@ Sockets|https://en.wikipedia.org/wiki/Berkeley_sockets]]**
 
 ## RFCs
 
-[i[RFCs]<] [i[References-->FRFCs]<]
+[i[RFCs]<] [i[References-->RFCs]<]
 
 [fl[RFCs|https://www.rfc-editor.org/]]---the real dirt!  These are
 documents that describe assigned numbers, programming APIs, and

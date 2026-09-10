@@ -281,7 +281,7 @@ address and port, but this is pretty rare.
 Once the socket is `connect()`ed, you're free to `send()` and `recv()`
 data on it to your heart's content.
 
-[i[`connect()`-->on datagram sockets]] Special note: if you `connect()`
+[i[`connect()` function-->on datagram sockets]] Special note: if you `connect()`
 a `SOCK_DGRAM` UDP socket to a remote host, you can use `send()` and
 `recv()` as well as `sendto()` and `recvfrom()`. If you want.
 
